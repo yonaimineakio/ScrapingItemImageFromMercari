@@ -38,6 +38,7 @@ def load(path: str) -> list[str]:
     return urls
 
 
+
 #retrive process
 def retrive(driver: Any, urls: list[str]) -> None:
     for url in urls:
