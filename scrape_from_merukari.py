@@ -29,7 +29,12 @@ def load(path: str) -> list[str]:
     urls =[]
     with open(path) as f:
         for line in f:
-            urls.append(line)
+            if not line.startswith('#'):
+                line = line.split("?")[0]
+                urls.append(line)
+            else:
+                continue
+
     return urls
 
 
@@ -41,7 +46,7 @@ def retrive(driver: Any, urls: list[str]) -> None:
         time.sleep(1)
 
         #get title
-        card_title = re.sub(re.compile('<.*?>|　|/'), '', driver.find_element(By.XPATH, value="//h1").get_attribute("outerHTML"))
+        card_title = re.sub(re.compile('<.*?>|　|/'), '', driver.find_element(By.XPATH, value="//h1").get_attribute("outerHTML"))[0]
         if not os.path.isdir(card_title):
             os.mkdir(f"./{card_title}")
 
@@ -68,3 +73,4 @@ if __name__ == "__main__":
     initData()
     urls = load(INPUT_PATH)
     retrive(driver, urls)
+    print("Done!")
